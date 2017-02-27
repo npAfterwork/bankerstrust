@@ -44,6 +44,7 @@ const IInvoiceFields = {
 	user: 'user',
 	account_nr: 'account_nr',
 	balance: 'balance',
+	balance_before: 'balance_before',
 	date: 'date',
 	date_from: 'date_from',
 	date_until: 'date_until',
@@ -52,13 +53,14 @@ const IInvoiceFields = {
 
 interface IInvoice {
 	format: string;
-	user: string;
-	account_nr: string;
-	blz: string;
-	balance: string;
-	date: string;
-	date_from: string;
-	date_until: string;
+	user?: string;
+	account_nr?: string;
+	blz?: string;
+	balance?: string;
+	balance_before?: string;
+	date?: string;
+	date_from?: string;
+	date_until?: string;
 	entries: Array<IEntry>;
 }
 

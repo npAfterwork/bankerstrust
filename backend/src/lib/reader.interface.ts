@@ -74,6 +74,7 @@ export interface IFormatSpec {
 	linefeed: string;
 	header: Array<IFormatSpecValueItem>;
 	entries: IFormatSpecValueItem;
+	footer?: Array<IFormatSpecValueItem>;
 	transform?: (data: IEntry) => IEntry;
 }
 

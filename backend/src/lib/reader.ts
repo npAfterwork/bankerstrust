@@ -3,7 +3,7 @@ import * as fs from 'fs';
 import * as moment from 'moment';
 import * as iconv from 'iconv-lite';
 import {IReaderFormat, IFormatSpecValueItem, IReaderResult, IFormatSpec} from './reader.interface';
-import {IEntry} from '../../../app/src/app/model/model';
+import {IEntry, IInvoice} from '../../../app/src/app/model/model';
 import {ComdirectSpecs} from './formats/comdirect';
 import {DKBSpecs} from './formats/dkb';
 
@@ -134,12 +134,11 @@ class Reader {
 		return 'invalid spec, unknown ' + JSON.stringify(spec);
 	}
 
-	read(data: Buffer, format: IFormatSpec, cb) {
+	readLines(lines: Array<string>, start: number, format: IFormatSpec, cb: (err?: any, invoice?: IInvoice, line?: number) => void) {
 		let invoice = {entries: [], format: format.name};
-		let s = iconv.decode(data, format.encoding);
-		let lines = s.split(format.linefeed);
 		let header = 0;
-		for (let i = 0; i < lines.length; i++) {
+		let footer = 0;
+		for (let i = start; i < lines.length; i++) {
 			let line = lines[i].trim();
 			if (line.length == 0) {
 				continue;
@@ -151,6 +150,16 @@ class Reader {
 					return cb('error on header line ' + i + ': ' + err);
 				}
 				header++;
+			} else if (footer > 0) {
+				if (footer >= format.footer.length) {
+					return cb(null, invoice, i);
+				}
+				let f = format.footer[footer];
+				let err = this.readSpec(line, f, invoice);
+				if (err) {
+					return cb('error on footer line ' + i + ': ' + err);
+				}
+				footer++;
 			} else {
 				let entry: IEntry = {
 					raw: line,
@@ -163,16 +172,39 @@ class Reader {
 				};
 				let err = this.readSpec(line, format.entries, entry);
 				if (err) {
+					if (format.footer) {
+						let f = format.footer[0];
+						let e = this.readSpec(line, f, invoice);
+						if (!e) {
+							footer++;
+							continue;
+						}
+					}
 					return cb('error on entry line ' + i + ': ' + err);
 				}
 				invoice.entries.push(format.transform ? format.transform(entry) : entry);
 			}
 		}
+		cb(null, invoice, lines.length);
+	}
+
+
+	read(data: Buffer, format: IFormatSpec, cb) {
+		let s = iconv.decode(data, format.encoding);
+		let lines = s.split(format.linefeed);
+		this.readLines(lines, 0, format, (err, invoice, linenr) => {
+			if (err) {
+				return cb(err);
+			}
+			if (linenr < lines.length) {
+				console.log('TODO: More lines availble');
+			}
+			cb(null, invoice);
+		});
 		// if (s.indexOf('Ã¤') > 0) {
 		// 	s = iconv.decode(data, 'utf-8').toString();
 		// 	console.log('WARNING file format converted', filename);
 		// }
-		cb(null, invoice);
 	}
 
 	readFile(filename: string, bank: string, cb: (err: any, data?: IReaderResult) => void) {

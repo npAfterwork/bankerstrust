@@ -395,7 +395,7 @@ const comdirect_girokonto_2011_2012: IFormatSpec = {
 };
 
 const comdirect_girokonto_2013_2017: IFormatSpec = {
-	name: 'comdirect girokonto 2013-2015',
+	name: 'comdirect girokonto 2013-2017',
 	encoding: 'iso-8859-1',
 	linefeed: '\n',
 	header: [
@@ -590,9 +590,212 @@ const comdirect_girokonto_2013_2017: IFormatSpec = {
 	}
 };
 
+const comdirect_girokonto_invoice_20xx_2017: IFormatSpec = {
+	name: 'comdirect girokonto invoice 20xx-2017',
+	encoding: 'iso-8859-1',
+	linefeed: '\n',
+	header: [
+		{
+			multi: {
+				seperator: ';',
+				items: [
+					{constant: {text: 'Umsätze Girokonto'}},
+					{
+						multi: {
+							seperator: ':',
+							items: [
+								{constant: {text: 'Zeitraum'}},
+								{value: {field: IInvoiceFields.date}}
+							]
+						}
+					}
+				]
+			}
+		},
+		{
+			multi: {
+				seperator: ';',
+				items: [
+					{constant: {text: 'Neuer Kontostand'}},
+					{value: {field: IInvoiceFields.balance}}
+				]
+			}
+		},
+		{
+			multi: {
+				seperator: ';',
+				items: [
+					{constant: {text: 'Buchungstag'}},
+					{constant: {text: 'Wertstellung (Valuta)'}},
+					{constant: {text: 'Vorgang'}},
+					{constant: {text: 'Buchungstext'}},
+					{constant: {text: 'Umsatz in EUR'}}
+				]
+			}
+		}
+	],
+	entries: {
+		multi: {
+			seperator: ';',
+			items: [
+				{
+					or: {
+						items: [
+							{date: {field: IEntryFields.day, date_format: 'DD.MM.YYYY'}},
+							{
+								constant: {
+									text: 'offen'
+								}
+							}
+						]
+					}
+				},
+				{
+					or: {
+						items: [
+							{date: {field: IEntryFields.valuta, date_format: 'DD.MM.YYYY'}},
+							{
+								constant: {
+									text: '--'
+								}
+							}
+						]
+					}
+				},
+				{value: {field: IEntryFields.type}},
+				{
+					or: {
+						items: [
+							{
+								regex_multi: {
+
+									regex: 'Buchungstext: GA NR([0-9]*) BLZ([0-9]*) (.*) Ref\. (.*)',
+									removespace: [39],
+									items: [
+										{value: {field: IEntryFields.contact_nr}},
+										{value: {field: IEntryFields.contact_blz}},
+										{value: {field: IEntryFields.text}},
+										{value: {field: IEntryFields.ref}}
+									]
+								},
+								fixed: [
+									{field: IEntryFields.contact_name, fixed: 'Bargeld'}
+								]
+							},
+							{
+								regex_multi: {
+									regex: 'Auftraggeber:(.*)Buchungstext:(.*) End-to-End-Ref\.: (.*) Ref\.(.*)',
+									items: [
+										{value: {field: IEntryFields.contact_name, removespace: [35]}},
+										{value: {field: IEntryFields.text, removespace: [71]}},
+										{value: {field: IEntryFields.kdn_ref}},
+										{value: {field: IEntryFields.ref}}
+									]
+								}
+							},
+							{
+								regex_multi: {
+									regex: 'Auftraggeber:(.*)Buchungstext:(.*) KDN-REF ([0-9]*) Ref\.(.*)',
+									items: [
+										{value: {field: IEntryFields.contact_name, removespace: []}},
+										{value: {field: IEntryFields.text, removespace: []}},
+										{value: {field: IEntryFields.kdn_ref}},
+										{value: {field: IEntryFields.ref}}
+									]
+								}
+							},
+							{
+								regex_multi: {
+									regex: 'Auftraggeber:(.*)Buchungstext:(.*) Ref\. (.*)',
+									items: [
+										{value: {field: IEntryFields.contact_name, removespace: []}},
+										{value: {field: IEntryFields.text, removespace: []}},
+										{value: {field: IEntryFields.ref}}
+									]
+								}
+							},
+							{
+								regex_multi: {
+									regex: 'Empfänger:(.*)Kto/IBAN:(.*)BLZ/BIC:(.*)Buchungstext:(.*) End-to-End-Ref\.:(.*)/ Mandatsref\.:(.*)Gläubiger-ID:(.*)Ref\.(.*)',
+									items: [
+										{value: {field: IEntryFields.contact_name, removespace: [35]}},
+										{value: {field: IEntryFields.contact_nr}},
+										{value: {field: IEntryFields.contact_blz}},
+										{value: {field: IEntryFields.text, removespace: [34, 35]}},
+										{value: {field: IEntryFields.endtoend_ref}},
+										{value: {field: IEntryFields.gl_id}},
+										{value: {field: IEntryFields.ref}}
+									]
+								}
+							},
+							{
+								regex_multi: {
+									regex: 'Empfänger:(.*)Kto/IBAN:(.*)BLZ/BIC:(.*)Buchungstext:(.*) End-to-End-Ref\.: (.*) Ref\. (.*)',
+									items: [
+										{value: {field: IEntryFields.contact_name, removespace: [35]}},
+										{value: {field: IEntryFields.contact_nr}},
+										{value: {field: IEntryFields.contact_blz}},
+										{value: {field: IEntryFields.text, removespace: [34, 35]}},
+										{value: {field: IEntryFields.ref}}
+									]
+								}
+							},
+							{
+								regex_multi: {
+									regex: 'Empfänger:(.*)Kto/IBAN:(.*)BLZ/BIC:(.*)Buchungstext:(.*) Ref\. (.*)',
+									items: [
+										{value: {field: IEntryFields.contact_name, removespace: []}},
+										{value: {field: IEntryFields.contact_nr}},
+										{value: {field: IEntryFields.contact_blz}},
+										{value: {field: IEntryFields.text, removespace: []}},
+										{value: {field: IEntryFields.ref}}
+									]
+								}
+							},
+							{
+								regex_multi: {
+									regex: 'Empfänger:(.*)Kto/IBAN:(.*)BLZ/BIC:(.*)Buchungstext:(.*) KDN-REF (.*)',
+									items: [
+										{value: {field: IEntryFields.contact_name, removespace: []}},
+										{value: {field: IEntryFields.contact_nr}},
+										{value: {field: IEntryFields.contact_blz}},
+										{value: {field: IEntryFields.text, removespace: []}},
+										{value: {field: IEntryFields.kdn_ref}}
+									]
+								}
+							},
+							{
+								regex_multi: {
+									regex: 'Buchungstext:(.*) Ref\. (.*)',
+									items: [
+										{value: {field: IEntryFields.text, removespace: []}},
+										{value: {field: IEntryFields.ref}}
+									]
+								}
+							}
+						]
+					}
+				},
+				{float: {field: IEntryFields.value, float_delimiter: ','}}
+			]
+		}
+	},
+	footer: [
+		{
+			multi: {
+				seperator: ';',
+				items: [
+					{constant: {text: 'Alter Kontostand'}},
+					{value: {field: IInvoiceFields.balance_before}}
+				]
+			}
+		}
+	]
+};
+
 const ComdirectSpecs: IReaderFormat = {
 	bank: 'comdirect',
-	specs: [comdirect_girokonto_2013_2017, comdirect_girokonto_2011_2012, comdirect_girokonto_2005_2010]
+	specs: [comdirect_girokonto_invoice_20xx_2017, comdirect_girokonto_2013_2017, comdirect_girokonto_2011_2012, comdirect_girokonto_2005_2010]
 };
 
 export {ComdirectSpecs}
