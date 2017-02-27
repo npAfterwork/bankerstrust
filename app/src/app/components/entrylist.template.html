@@ -1,0 +1,38 @@
+<table st-table="displayEntries" st-safe-src="$ctrl.entries" class="md-table table-entries">
+	<thead class="md-head">
+	<tr class="md-row">
+		<th class="md-column col-info">Info</th>
+		<th class="md-column col-date" st-sort="day">Datum</th>
+		<th class="md-column col-type" st-sort="type">Typ</th>
+		<th class="md-column col-value" st-sort="value">Wert</th>
+		<th class="md-column col-contact" st-sort="contact_name">Kontakt</th>
+		<th class="md-column col-text" st-sort="text">Text</th>
+	</tr>
+	<!--<tr class="md-row">-->
+		<!--<th class="md-cell"></th>-->
+		<!--<th class="md-cell md-input-cell">-->
+			<!--<datepicker date-set="{{view.mindate.format('YYYY/MM/DD')}}" date-min-limit="{{view.mindate.format('YYYY/MM/DD')}}" date-max-limit="{{view.maxdate.format('YYYY/MM/DD')}}" date-format="{{'yyyy/MM/dd'}}">-->
+				<!--<input ng-model="filter.from" type="text"/>-->
+			<!--</datepicker>-->
+			<!--<datepicker date-set="{{view.maxdate.format('YYYY/MM/DD')}}" date-min-limit="{{view.mindate.format('YYYY/MM/DD')}}" date-max-limit="{{view.maxdate.format('YYYY/MM/DD')}}" date-format="{{'yyyy/MM/dd'}}">-->
+				<!--<input ng-model="filter.to" type="text"/>-->
+			<!--</datepicker>-->
+		<!--</th>-->
+		<!--<th class="md-cell md-input-cell"><input ng-model="filter.type"></th>-->
+		<!--<th class="md-cell md-input-cell"><input ng-model="filter.value"></th>-->
+		<!--<th class="md-cell md-input-cell"><input ng-model="filter.contact"></th>-->
+		<!--<th class="md-cell md-input-cell"><input ng-model="filter.text"></th>-->
+	<!--</tr>-->
+	</thead>
+	<tbody class="md-body">
+	<tr class="md-row" ng-repeat="row in displayEntries" >
+		<td class="md-cell"><i class="mdi mdi-information"title="{{row | json}}"></i></td>
+		<td class="md-cell" ng-bind="row.day"></td>
+		<td class="md-cell" ng-bind="row.type"></td>
+		<td class="md-cell text-right" ng-bind="row.value.toFixed(2)+'&nbsp;€'"></td>
+		<td class="md-cell" ng-bind="row.contact_name"></td>
+		<td class="md-cell" ng-bind="row.text"></td>
+	</tr>
+	</tbody>
+</table>
+<p>In Anzeige: <span ng-bind="$ctrl.balance.toFixed(2)"></span>€</p>

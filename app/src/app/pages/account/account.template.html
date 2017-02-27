@@ -1,0 +1,15 @@
+<md-toolbar class="md-whiteframe-z3">
+	<div class="md-toolbar-tools">
+		<md-button aria-label="Go Back" ui-sref="dashboard">Go Back</md-button>
+		<md-button hide-xs>Account {{accountVm.accountInfo.account.name}}</md-button>
+		<span flex></span>
+		<div layout="row">
+			<md-button ui-sref="account.list({id:accountVm.accountInfo.account.id})">Einträge</md-button>
+			<md-button ui-sref="account.import({id:accountVm.accountInfo.account.id})">Import</md-button>
+			<!--<md-button ui-sref="account({id:accountVm.accountInfo.account.id}).graphs">Graphs</md-button>-->
+		</div>
+	</div>
+</md-toolbar>
+<div class="content_container">
+	<ui-view></ui-view>
+</div>

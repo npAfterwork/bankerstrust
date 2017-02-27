@@ -1,0 +1,39 @@
+<md-toolbar class="md-whiteframe-z3">
+	<div class="md-toolbar-tools">
+		<md-button hide-xs>Bankerstrust {{mainVm.version}}</md-button>
+		<span flex></span>
+		<div layout="row">
+			<md-button ui-sref="dashboard">Start</md-button>
+			<md-button ui-sref="imports">Imports</md-button>
+			<md-button ui-sref="contacts">Kontakte</md-button>
+		</div>
+	</div>
+</md-toolbar>
+<div class="content_container">
+	<h2 layout="row" layout-align="center">Welcome to Bankerstrust</h2>
+	<md-content class="md-padding" layout-xs="column" layout="row">
+		<md-fab-trigger>
+			<md-button aria-label="menu" class="md-fab md-primary" title="New ServerAccount" ng-click="dashboardVm.newAccount($event)"><i class="mdi mdi-plus mdi-24px"></i></md-button>
+		</md-fab-trigger>
+		<div flex-xs flex-gt-xs="50" layout="column">
+			<md-card ng-repeat="a in dashboardVm.accounts">
+				<md-card-title>
+					<md-card-title-text>
+						<span class="md-headline" ng-bind="a.account.name"></span>
+						<span class="md-subhead">
+							<span ng-if="a.account.iban">IBAN: <span ng-bind="a.account.iban"></span><br/></span>
+							<span ng-if="a.account.account_nr">Nr.: <span ng-bind="a.account.account_nr"></span><br/></span>
+							<span ng-if="a.account.blz">BLZ: <span ng-bind="a.account.blz"></span><br/></span>
+							<span>Transactions: <span ng-bind="a.entries_count"></span><br/></span>
+						</span>
+					</md-card-title-text>
+				</md-card-title>
+				<md-card-actions layout="row" layout-align="end center">
+					<md-button ui-sref="account.list({ id: a.account.id })" title="Open Account">Open</md-button>
+					<md-button ng-click="dashboardVm.editAccount($event,a)" title="Edit Account"><i class="mdi mdi-pencil"></i></md-button>
+					<md-button ng-click="dashboardVm.deleteAccount($event,a)" title="Remove Account"><i class="mdi mdi-delete"></i></md-button>
+				</md-card-actions>
+			</md-card>
+		</div>
+	</md-content>
+</div>

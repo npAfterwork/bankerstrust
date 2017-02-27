@@ -1,0 +1,10 @@
+!.gitkeep
+node_modules/
+npm-debug.log
+.DS_Store
+.idea
+local/
+data/
+!data/.gitkeep
+dist/
+!dist/config.json.dist

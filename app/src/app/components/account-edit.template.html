@@ -1,0 +1,64 @@
+<md-dialog aria-label="ServerAccount">
+	<form ng-cloak>
+		<md-toolbar>
+			<div class="md-toolbar-tools">
+				<h2>Account</h2>
+				<span flex></span>
+				<md-button class="md-icon-button" ng-click="cancel()">
+					<i class="mdi mdi-close mdi-24px" aria-label="Close dialog"></i>
+				</md-button>
+			</div>
+		</md-toolbar>
+		<md-dialog-content>
+			<div class="md-dialog-content">
+				<div layout="column" ng-cloak class="md-inline-form">
+					<md-content layout-padding>
+						<div>
+							<form name="accountForm">
+								<div layout-gt-sm="row">
+									<md-input-container class="md-block" flex-gt-sm>
+										<label>Name</label>
+										<input required md-autofocus ng-model="account.name">
+									</md-input-container>
+								</div>
+								<div layout-gt-sm="row">
+									<md-input-container class="md-block" flex-gt-sm>
+										<label>Bank</label>
+										<input ng-model="account.bank">
+									</md-input-container>
+								</div>
+								<div layout-gt-sm="row">
+									<md-input-container class="md-block" flex-gt-sm>
+										<label>IBAN</label>
+										<input ng-model="account.iban">
+									</md-input-container>
+								</div>
+								<div layout-gt-sm="row">
+									<md-input-container class="md-block" flex-gt-sm>
+										<label>Number</label>
+										<input ng-model="account.account_nr">
+									</md-input-container>
+									<md-input-container class="md-block" flex-gt-sm>
+										<label>BLZ</label>
+										<input ng-model="account.blz">
+									</md-input-container>
+								</div>
+								<md-input-container class="md-block">
+									<label>Notes</label>
+									<textarea ng-model="account.notes" columns="1" md-maxlength="400" rows="5"></textarea>
+								</md-input-container>
+							</form>
+						</div>
+					</md-content>
+				</div>
+
+			</div>
+		</md-dialog-content>
+		<md-dialog-actions layout="row">
+			<span flex></span>
+			<md-button ng-disabled="!isValid()" ng-click="answer(true)">OK</md-button>
+			<md-button ng-click="answer(false)">Cancel</md-button>
+		</md-dialog-actions>
+	</form>
+</md-dialog>
+

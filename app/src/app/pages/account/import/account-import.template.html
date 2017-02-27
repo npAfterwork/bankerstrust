@@ -1,0 +1,70 @@
+<div class="drop-zone">
+
+	<div class="uploads" ng-show="accountImportVm.uploader.queue.length==0">
+		<div ng-show="accountImportVm.uploader.isHTML5">
+			<div nv-file-drop="" nv-file-over="" uploader="accountImportVm.uploader" over-class="other-over-zone" class="other-drop-zone zone">
+				Drop your cvs files here
+			</div>
+			<div style="clear: both;"></div>
+		</div>
+		<br/>
+		<input type="file" nv-file-select="" uploader="accountImportVm.uploader" multiple/>
+	</div>
+	<div>
+		<div ng-if="accountImportVm.uploader.isUploading">
+			Total progress: {{ accountImportVm.uploader.progress }}
+			<div class="total-progress-box">
+				<div class="total-progress" ng-style="{ 'width': accountImportVm.uploader.progress + '%' }"></div>
+			</div>
+		</div>
+		<div class="upload_entry" ng-repeat="item in accountImportVm.uploader.queue">
+			<div>Name: {{ item.file.name }}</div>
+			<div>Size: {{ item.file.size/1024/1024|number:2 }} Mb</div>
+			<div ng-show="uploader.isHTML5">
+				Progress: {{ item.progress }}
+				<div class="item-progress-box">
+					<div class="item-progress" ng-style="{ 'width': item.progress + '%' }"></div>
+				</div>
+			</div>
+			<div ng-if="item.error" ng-bind="item.error"></div>
+			<div>
+				<button ng-click="item.upload()" ng-disabled="item.isReady || item.isUploading">Parse</button>
+				<button ng-click="item.cancel()" ng-disabled="!item.isUploading">Cancel</button>
+				<button ng-click="item.remove()">Remove</button>
+				<div ng-if="item.response">
+					<div ng-if="item.response.error">
+						{{item.response | json}}
+					</div>
+
+					<div ng-if="item.response.invoice">
+						<div>
+							<div ng-if="item.response.invoice.format">Format: {{item.response.invoice.format}}</div>
+							<div ng-if="item.response.invoice.user">User: {{item.response.invoice.user}}</div>
+							<div ng-if="item.response.invoice.account_nr">Account: {{item.response.invoice.account_nr}}</div>
+							<div ng-if="item.response.invoice.blz">BLZ/BIC: {{item.response.invoice.blz}}</div>
+							<div ng-if="item.response.invoice.balance">Balance: {{item.response.invoice.balance}}</div>
+							<div ng-if="item.response.invoice.date">Date: {{item.response.invoice.date}}</div>
+							<div ng-if="item.response.invoice.date_from">From: {{item.response.invoice.date_from}}</div>
+							<div ng-if="item.response.invoice.date_until">Until: {{item.response.invoice.date_until}}</div>
+						</div>
+						<div>
+							<i ng-click="item.expanded=!item.expanded" class="clickable mdi" ng-class="{'mdi-plus': !item.expanded,'mdi-minus': item.expanded}"></i>
+							Entries: {{item.response.invoice.entries.length}} <button ng-click="accountImportVm.importInvoice(item)" ng-disabled="!item.isSuccess || item.response.error">Import</button>
+						</div>
+						<div ng-if="item.expanded">
+							<entrylist list="item.response.invoice.entries"></entrylist>
+						</div>
+						<!--{{item.response.invoice | json}}-->
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div>
+
+		<!--<button ng-click="accountImportVm.uploader.uploadAll()" ng-disabled="!accountImportVm.uploader.getNotUploadedItems().length">Import all</button>-->
+		<button ng-click="accountImportVm.uploader.cancelAll()" ng-disabled="!accountImportVm.uploader.isUploading">Cancel all</button>
+		<button ng-click="accountImportVm.uploader.clearQueue()" ng-disabled="!accountImportVm.uploader.queue.length">Remove all</button>
+	</div>
+
+</div>

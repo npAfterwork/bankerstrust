@@ -1,0 +1,35 @@
+{
+  "name": "BankerstrustBackend",
+  "version": "0.0.1",
+  "description": "Bankerstrust NodeJS Backend",
+  "author": "ffalt",
+  "license": "ISC",
+  "scripts": {
+    "import_test:mac": "ts-node ./bin/test-import.ts",
+    "import_test:win": "ts-node .\\bin\\test-import.ts",
+    "watch": "webpack --watch",
+    "build": "webpack",
+    "server:mac": "cd ../dist && nodemon server.js",
+    "server:win": "cd ..\\dist && nodemon server.js",
+    "server:watch:mac": "npm run server:mac & npm run watch",
+    "server:watch:win": "npm run server:win & npm run watch",
+    "develop:mac": "npm run build && npm run server:watch:mac",
+    "develop:win": "npm run build && npm run server:watch:win"
+  },
+  "dependencies": {
+  },
+  "devDependencies": {
+    "@types/body-parser": "^0.0.34",
+    "@types/async": "^2.0.38",
+    "@types/express": "^4.0.35",
+    "@types/iconv-lite": "^0.0.1",
+    "@types/node": "^7.0.5",
+    "awesome-typescript-loader": "^3.0.8",
+    "nodemon": "^1.11.0",
+    "tslint": "^4.4.2",
+    "tslint-loader": "^3.4.2",
+    "ts-node": "^2.1.0",
+    "typescript": "^2.2.1",
+    "webpack": "^2.2.1"
+  }
+}

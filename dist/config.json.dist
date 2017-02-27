@@ -1,0 +1,11 @@
+{
+  "paths": {
+    "web": "./app/",
+    "data": "../data/"
+  },
+  "server": {
+    "host": "127.0.0.1",
+    "port": 6501,
+    "develop_port": 6500
+  }
+}

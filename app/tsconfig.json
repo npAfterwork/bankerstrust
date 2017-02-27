@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "moduleResolution": "node",
+    "sourceRoot": "src",
+    "lib": [
+      "es6",
+      "dom"
+    ],
+    "target": "ES5",
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+    "noImplicitAny": false,
+    "removeComments": true,
+    "sourceMap": true,
+    "module": "commonjs",
+    "experimentalDecorators": true,
+    "outDir": "build"
+  },
+  "exclude": [
+    "node_modules",
+    "build",
+    "assets"
+  ]
+}
