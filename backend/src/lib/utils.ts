@@ -5,6 +5,20 @@ import * as async from 'async';
 
 class Utils {
 
+	static flow(functions: Array<(cb: IErrorCallback) => void>, cb: IErrorCallback) {
+		async.waterfall(functions, cb);
+	}
+
+	static ensureDirectory(dir: string, cb: IErrorCallback) {
+		fs.access(dir, fs.constants.R_OK | fs.constants.W_OK, (err) => {
+			if (err && err.code === 'ENOENT') {
+				fs.mkdir(dir, cb);
+			} else {
+				cb(err);
+			}
+		});
+	}
+
 	static queue(data: Array<any>, exec: (item: any, next: IErrorCallback) => void, final?: IErrorCallback, parallel?: number) {
 		let q = async.queue(exec, parallel || 1);
 		q.drain = final;

@@ -11,7 +11,7 @@ class Contacts {
 	}
 
 	load(cb: IErrorCallback) {
-		Utils.readJson(path.join(this.dir, 'contacts.json'), (err, data) => {
+		Utils.readJson(path.resolve(this.dir, 'contacts.json'), (err, data) => {
 			if (err) {
 				return cb(err);
 			}
@@ -49,7 +49,7 @@ class Contacts {
 	};
 
 	save(cb: IErrorCallback) {
-		Utils.writeJson(path.join(this.dir, 'contacts.json'), this.entries, cb);
+		Utils.writeJson(path.resolve(this.dir, 'contacts.json'), this.entries, cb);
 	};
 }
 
