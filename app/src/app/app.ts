@@ -4,11 +4,11 @@ import {MainCtrl} from './app.component';
 import {DashboardPage} from './pages/dashboard/dashboard.component';
 import {ContactsPage} from './pages/contacts/contacts.component';
 import {ApiService} from './services/api.service';
+import {SweetAlertService} from './services/swal.service';
 import {AccountPage} from './pages/account/account.component';
 import {AccountListComponent} from './pages/account/entries/account-entries.component';
 import {AccountImportComponent} from './pages/account/import/account-import.component';
 import {EntryListComponent} from './components/entrylist.component';
-
 
 let app = angular.module('app', ['ui.router', 'ngMaterial', 'ngAnimate', 'angularFileUpload', 'ngSanitize', 'smart-table'])
 	.controller('MainCtrl', MainCtrl)
@@ -18,7 +18,8 @@ let app = angular.module('app', ['ui.router', 'ngMaterial', 'ngAnimate', 'angula
 	.controller('AccountListComponent', AccountListComponent)
 	.controller('AccountImportComponent', AccountImportComponent)
 	.component('entrylist', new EntryListComponent())
-	.service('ApiService', ApiService);
+	.service('ApiService', ApiService)
+	.service('SweetAlertService', SweetAlertService);
 
 app.config(AppRoutes);
 

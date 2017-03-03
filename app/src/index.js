@@ -7,6 +7,7 @@ require('angular-material');
 require('angular-file-upload');
 require('angular-smart-table');
 
+require('sweetalert2/dist/sweetalert2.min.css');
 require('angular-material/angular-material.css');
 require('./assets/css/app.scss');
 

@@ -15,7 +15,7 @@ bankerstrust
 
 ## Setup
 
-* Copy `dist/config.json.dist` to `dist/config.json`
+* Copy `dist/config.jscd on.dist` to `dist/config.json`
   
   Adjust settings (e.g. ports) as needed
 
@@ -25,7 +25,7 @@ bankerstrust
   
   `/app` Installs the app develop & build dependencies
    
-  `backend` Installs the backend develop & build dependencies
+  `/backend` Installs the backend develop & build dependencies
 
 
 ## Develop
