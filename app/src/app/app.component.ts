@@ -10,7 +10,7 @@ class MainCtrl implements angular.IController {
 	}
 
 	$onInit(): void {
-		this.$log.warn('init');
+		this.$log.debug('init main ctrl');
 	}
 
 }

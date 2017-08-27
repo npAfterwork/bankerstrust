@@ -9,9 +9,9 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPl
 const conf = {
 	webpack: {
 		analyze: false,
-		minimize: true,
-		debug: false,
-		sourcemaps: false
+		minimize: false,
+		debug: true,
+		sourcemaps: true
 	}
 };
 

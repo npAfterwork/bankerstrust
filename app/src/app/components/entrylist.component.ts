@@ -4,18 +4,18 @@ import {IEntry} from '../model/model';
 
 class EntryListComponentController implements ng.IController {
 	filter = {
-		from: null,
-		to: null,
-		todate: null,
+		from    : null,
+		to      : null,
+		todate  : null,
 		fromdate: null,
-		value: '',
-		contact: '',
-		text: '',
-		type: ''
+		value   : '',
+		contact : '',
+		text    : '',
+		type    : '',
 	};
 	sorting = {
 		sort: 'day',
-		asc: true
+		asc : true,
 	};
 	balance: number;
 	list: Array<IEntry> = [];
@@ -24,14 +24,10 @@ class EntryListComponentController implements ng.IController {
 	static $inject = ['$scope', '$log'];
 
 	constructor(private $scope: angular.IScope, private $log: angular.ILogService) {
-		this.ngInit();
 	}
 
 	$onInit(): void {
-		this.$log.warn('init');
-	}
-
-	ngInit() {
+		this.$log.debug('init EntryListCompontentController');
 		this.$scope.$watch('$ctrl.list', (list) => {
 			if (list) {
 				this.doFilter();
@@ -89,13 +85,13 @@ class EntryListComponentController implements ng.IController {
 
 	display() {
 		let view = {
-			total: 0,
-			min: null,
-			max: null,
+			total    : 0,
+			min      : null,
+			max      : null,
 			datestats: new AccountStats(),
-			entries: this.list,
+			entries  : this.list,
 		};
-		this.list.forEach(function(entry) {
+		this.list.forEach(function (entry) {
 			let day = moment(entry.day, 'YYYY/MM/DD').valueOf();
 			if (view.min == null || view.min > day) {
 				view.min = day;

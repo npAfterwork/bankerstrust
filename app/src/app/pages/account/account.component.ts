@@ -14,20 +14,18 @@ class AccountPage {
 				private $stateParams: angular.ui.IStateParamsService,
 				private apiService: ApiService,
 				private $log: angular.ILogService) {
-		this.ngInit();
 	}
 
 	$onInit(): void {
-		this.$log.warn('init');
-	}
-
-	ngInit() {
+		this.$log.debug('init Account Page');
 		this.isLoading = true;
 		this.apiService.getAccount(this.$stateParams['id']).then((res: angular.IHttpPromiseCallbackArg<IAccountInfo>) => {
 			this.isLoading = false;
 			this.accountInfo = res.data;
 		});
+
 	}
+
 }
 
 export {AccountPage}

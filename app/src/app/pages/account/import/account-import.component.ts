@@ -6,15 +6,14 @@ class AccountImportComponent {
 
 	static $inject = ['$scope', '$state', '$stateParams', 'ApiService', 'FileUploader'];
 
-	constructor(private $scope: angular.IScope, private $state: angular.ui.IStateService, private $stateParams: angular.ui.IStateParamsService, private apiService: ApiService, private FileUploader) {
-		this.ngInit();
+	constructor(private $scope: angular.IScope,
+				private $state: angular.ui.IStateService,
+				private $stateParams: angular.ui.IStateParamsService,
+				private apiService: ApiService,
+				private FileUploader) {
 	}
 
 	$onInit(): void {
-
-	}
-
-	ngInit() {
 		this.account_id = this.$stateParams['id'];
 		let uploader = new this.FileUploader();
 		uploader.url = 'api/account/' + this.account_id + '/import';

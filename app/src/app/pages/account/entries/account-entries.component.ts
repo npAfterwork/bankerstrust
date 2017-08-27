@@ -13,21 +13,16 @@ class AccountListComponent {
 				private $stateParams: angular.ui.IStateParamsService,
 				private apiService: ApiService,
 				private $log: angular.ILogService) {
-		this.ngInit();
 	}
 
 	$onInit(): void {
-		this.$log.warn('init');
-	}
-
-	ngInit() {
+		this.$log.debug('init AccountListComponent');
 		this.isLoading = true;
 		this.apiService.getAccountEntries(this.$stateParams['id']).then((res: angular.IHttpPromiseCallbackArg<Array<IEntry>>) => {
 			this.isLoading = false;
 			this.entries = res.data;
 		});
 	}
-
 }
 
 export {AccountListComponent}

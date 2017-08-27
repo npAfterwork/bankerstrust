@@ -11,20 +11,20 @@ class DashboardPage {
 
 	static $inject = ['$state', 'ApiService', '$mdDialog', 'SweetAlertService', AngularServices.Log];
 
-	constructor(private $state: angular.ui.IStateService, private apiService: ApiService, private $mdDialog, private sweetAlert: SweetAlertService, private $log: angular.ILogService) {
-		this.ngInit();
+	constructor(private $state: angular.ui.IStateService,
+				private apiService: ApiService,
+				private $mdDialog,
+				private sweetAlert: SweetAlertService,
+				private $log: angular.ILogService) {
 	}
 
 	$onInit(): void {
-		this.$log.warn('initasdfas');
-	}
-
-	ngInit() {
 		this.isLoading = true;
 		this.apiService.getAccounts().then((res: angular.IHttpPromiseCallbackArg<Array<IAccountInfo>>) => {
 			this.isLoading = false;
 			this.accounts = res.data;
 		});
+		this.$log.warn('initasdfas');
 	}
 
 	deleteAccount(event, accountInfo: IAccountInfo) {
