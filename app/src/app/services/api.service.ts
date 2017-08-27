@@ -1,17 +1,5 @@
 import {IAccount, IEntry, IAccountInfo} from '../model/model';
 
-interface IAccountListResult {
-	data: Array<IAccountInfo>;
-}
-
-interface IAccountResult {
-	data: IAccountInfo;
-}
-
-interface IAccountEntriesResult {
-	data: Array<IEntry>;
-}
-
 class ApiService {
 
 	static $inject = ['$q', '$http', '$state', 'BASEAPI'];
@@ -19,29 +7,29 @@ class ApiService {
 	constructor(private $q: angular.IQService, private $http: angular.IHttpService, private $state: angular.ui.IStateService, private baseUrl: string) {
 	}
 
-	public getAccounts(): angular.IPromise<IAccountListResult> {
+	public getAccounts(): angular.IHttpPromise<Array<IAccountInfo>> {
 		return this.$http.get(`${this.baseUrl}/accounts/list`);
 	}
 
-	public getAccount(id: string): angular.IPromise<IAccountResult> {
+	public getAccount(id: string): angular.IHttpPromise<IAccountInfo> {
 		return this.$http.get(`${this.baseUrl}/account/${id}/id`);
 	}
 
-	public getAccountEntries(id: string): angular.IPromise<IAccountEntriesResult> {
+	public getAccountEntries(id: string): angular.IHttpPromise<Array<IEntry>> {
 		return this.$http.get(`${this.baseUrl}/account/${id}/entries`);
 	}
 
-	public newAccount(account: IAccount): angular.IPromise<IAccountResult> {
+	public newAccount(account: IAccount): angular.IHttpPromise<IAccountInfo> {
 		return this.$http.post(`${this.baseUrl}/accounts/new`, account);
 	}
 
-	public updateAccount(account: IAccount): angular.IPromise<IAccountResult> {
+	public updateAccount(account: IAccount): angular.IHttpPromise<IAccountInfo> {
 		return this.$http.post(`${this.baseUrl}/accounts/update`, account);
 	}
 
-	public deleteAccount(account: IAccount): angular.IPromise<IAccountResult> {
+	public deleteAccount(account: IAccount): angular.IHttpPromise<IAccountInfo> {
 		return this.$http.post(`${this.baseUrl}/accounts/delete`, account);
 	}
 }
 
-export {ApiService, IAccountResult, IAccountListResult, IAccountEntriesResult}
+export {ApiService}

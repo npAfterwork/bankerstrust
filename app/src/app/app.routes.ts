@@ -17,7 +17,7 @@ let AppRoutes = ($stateProvider: any, $urlRouterProvider: angular.ui.IUrlRouterP
 			menu: 'dashboard'
 		})
 		.state(Routes.Account, {
-			url: '/account/:id',
+			url: '/account/:id', // TOASK how does this work
 			template: require('./pages/account/account.template.html'),
 			controller: 'AccountPage',
 			controllerAs: 'accountVm',

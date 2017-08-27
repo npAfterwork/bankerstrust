@@ -1,25 +1,27 @@
-import {ApiService, IAccountListResult} from '../../services/api.service';
+import {ApiService} from '../../services/api.service';
 import {SweetAlertService} from '../../services/swal.service';
 import {IAccount, IAccountInfo} from '../../model/model';
 import * as angular from 'angular';
+import {AngularServices} from '../../model/consts';
 
 
 class DashboardPage {
 	isLoading: boolean;
 	accounts: Array<IAccountInfo>;
 
-	static $inject = ['$state', 'ApiService', '$mdDialog', 'SweetAlertService'];
+	static $inject = ['$state', 'ApiService', '$mdDialog', 'SweetAlertService', AngularServices.Log];
 
-	constructor(private $state: angular.ui.IStateService,
-				private apiService: ApiService,
-				private $mdDialog,
-				private sweetAlert: SweetAlertService) {
+	constructor(private $state: angular.ui.IStateService, private apiService: ApiService, private $mdDialog, private sweetAlert: SweetAlertService, private $log: angular.ILogService) {
 		this.ngInit();
+	}
+
+	$onInit(): void {
+		this.$log.warn('initasdfas');
 	}
 
 	ngInit() {
 		this.isLoading = true;
-		this.apiService.getAccounts().then((res: IAccountListResult) => {
+		this.apiService.getAccounts().then((res: angular.IHttpPromiseCallbackArg<Array<IAccountInfo>>) => {
 			this.isLoading = false;
 			this.accounts = res.data;
 		});
@@ -28,27 +30,28 @@ class DashboardPage {
 	deleteAccount(event, accountInfo: IAccountInfo) {
 		console.log('sdf');
 		this.sweetAlert.warn({
-			title: 'Are you sure?',
-			text: 'You won\'t be able to revert this!',
-			showCancelButton: true,
+			title             : 'Are you sure?',
+			text              : 'You won\'t be able to revert this!',
+			showCancelButton  : true,
 			confirmButtonColor: '#3085d6',
-			cancelButtonColor: '#d33',
-			confirmButtonText: 'Yes, delete it!'
+			cancelButtonColor : '#d33',
+			confirmButtonText : 'Yes, delete it!',
 		}).then(
 			(confirm) => {
-				this.apiService.deleteAccount(accountInfo.account).then((res) => {
-					if (res.data) {
-						this.accounts.splice(this.accounts.indexOf(accountInfo), 1);
-						this.sweetAlert.success({
-							title: 'Deleted!',
-							text: 'Your account has been deleted.',
-						});
-					}
-				});
+				this.apiService.deleteAccount(accountInfo.account).then(
+					(res) => {
+						if (res.data) {
+							this.accounts.splice(this.accounts.indexOf(accountInfo), 1);
+							this.sweetAlert.success({
+								title: 'Deleted!',
+								text : 'Your account has been deleted.',
+							});
+						}
+					});
 			},
 			(dismiss) => {
 				this.sweetAlert.info({text: 'Account NOT deleted'});
-			}
+			},
 		);
 
 		// let confirm = this.$mdDialog.confirm()
@@ -73,26 +76,26 @@ class DashboardPage {
 	editAccount(event, accountInfo: IAccountInfo) {
 		let account = angular.copy(accountInfo.account);
 		this.$mdDialog.show({
-			controller: ($scope, $mdDialog) => {
-				$scope.account = account;
-				$scope.hide = () => {
-					$mdDialog.hide();
-				};
-				$scope.cancel = () => {
-					$mdDialog.cancel();
-				};
-				$scope.answer = (answer) => {
-					$mdDialog.hide(answer);
-				};
-				$scope.isValid = () => {
-					return (account && account.name && account.name.length > 0);
-				};
-			},
-			template: require('../../components/account-edit.template.html'),
-			parent: angular.element(document.body),
-			targetEvent: event,
-			clickOutsideToClose: true
-		})
+				controller         : ($scope, $mdDialog) => {
+					$scope.account = account;
+					$scope.hide = () => {
+						$mdDialog.hide();
+					};
+					$scope.cancel = () => {
+						$mdDialog.cancel();
+					};
+					$scope.answer = (answer) => {
+						$mdDialog.hide(answer);
+					};
+					$scope.isValid = () => {
+						return (account && account.name && account.name.length > 0);
+					};
+				},
+				template           : require('../../components/account-edit.template.html'),
+				parent             : angular.element(document.body),
+				targetEvent        : event,
+				clickOutsideToClose: true,
+			})
 			.then((answer) => {
 				if (answer) {
 					this.apiService.updateAccount(account).then((res) => {
@@ -104,33 +107,33 @@ class DashboardPage {
 			});
 	}
 
-	newAccount(event) {
+	newAccount(event) { // TOASK its not recognized ?? why is dat.. : (
 		let account: IAccount = {
-			id: '',
-			name: ''
+			id  : '',
+			name: '',
 		};
 
 		this.$mdDialog.show({
-			controller: ($scope, $mdDialog) => {
-				$scope.account = account;
-				$scope.hide = () => {
-					$mdDialog.hide();
-				};
-				$scope.cancel = () => {
-					$mdDialog.cancel();
-				};
-				$scope.answer = (answer) => {
-					$mdDialog.hide(answer);
-				};
-				$scope.isValid = () => {
-					return (account && account.name && account.name.length > 0);
-				};
-			},
-			template: require('../../components/account-edit.template.html'),
-			parent: angular.element(document.body),
-			targetEvent: event,
-			clickOutsideToClose: true
-		})
+				controller         : ($scope, $mdDialog) => {
+					$scope.account = account;
+					$scope.hide = () => {
+						$mdDialog.hide();
+					};
+					$scope.cancel = () => {
+						$mdDialog.cancel();
+					};
+					$scope.answer = (answer) => {
+						$mdDialog.hide(answer);
+					};
+					$scope.isValid = () => {
+						return (account && account.name && account.name.length > 0);
+					};
+				},
+				template           : require('../../components/account-edit.template.html'),
+				parent             : angular.element(document.body),
+				targetEvent        : event,
+				clickOutsideToClose: true,
+			})
 			.then((answer) => {
 				if (answer) {
 					this.apiService.newAccount(account).then((res) => {

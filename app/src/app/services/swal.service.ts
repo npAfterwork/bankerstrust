@@ -3,7 +3,6 @@
  */
 import sweetalert from 'sweetalert2';
 import {SweetAlertOptions} from 'sweetalert2';
-// import 'sweetalert2/dist/sweetalert2.min.css'; ASKME: why does it not work if imported here? require vs import ??
 
 class SweetAlertService {
 

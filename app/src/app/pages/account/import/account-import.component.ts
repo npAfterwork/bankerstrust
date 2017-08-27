@@ -6,12 +6,12 @@ class AccountImportComponent {
 
 	static $inject = ['$scope', '$state', '$stateParams', 'ApiService', 'FileUploader'];
 
-	constructor(private $scope: angular.IScope,
-				private $state: angular.ui.IStateService,
-				private $stateParams: angular.ui.IStateParamsService,
-				private apiService: ApiService,
-				private FileUploader) {
+	constructor(private $scope: angular.IScope, private $state: angular.ui.IStateService, private $stateParams: angular.ui.IStateParamsService, private apiService: ApiService, private FileUploader) {
 		this.ngInit();
+	}
+
+	$onInit(): void {
+
 	}
 
 	ngInit() {
@@ -25,40 +25,40 @@ class AccountImportComponent {
 		// 	}
 		// });
 
-		uploader.onWhenAddingFileFailed = function(item /*{File|FileLikeObject}*/, filter, options) {
+		uploader.onWhenAddingFileFailed = function (item /*{File|FileLikeObject}*/, filter, options) {
 			// console.info('onWhenAddingFileFailed', item, filter, options);
 		};
-		uploader.onAfterAddingFile = function(fileItem) {
+		uploader.onAfterAddingFile = function (fileItem) {
 			// console.info('onAfterAddingFile', fileItem);
 			fileItem.upload({parse: true});
 		};
-		uploader.onAfterAddingAll = function(addedFileItems) {
+		uploader.onAfterAddingAll = function (addedFileItems) {
 			// console.info('onAfterAddingAll', addedFileItems);
 		};
-		uploader.onBeforeUploadItem = function(item) {
+		uploader.onBeforeUploadItem = function (item) {
 			// console.info('onBeforeUploadItem', item);
 		};
-		uploader.onProgressItem = function(fileItem, progress) {
+		uploader.onProgressItem = function (fileItem, progress) {
 			// console.info('onProgressItem', fileItem, progress);
 		};
-		uploader.onProgressAll = function(progress) {
+		uploader.onProgressAll = function (progress) {
 			// console.info('onProgressAll', progress);
 		};
-		uploader.onSuccessItem = function(fileItem, response, status, headers) {
+		uploader.onSuccessItem = function (fileItem, response, status, headers) {
 			// console.info('onSuccessItem', fileItem, response, status, headers);
 		};
-		uploader.onErrorItem = function(fileItem, response, status, headers) {
+		uploader.onErrorItem = function (fileItem, response, status, headers) {
 			fileItem.error = response;
 			// console.info('onErrorItem', fileItem, response, status, headers);
 		};
-		uploader.onCancelItem = function(fileItem, response, status, headers) {
+		uploader.onCancelItem = function (fileItem, response, status, headers) {
 			// console.info('onCancelItem', fileItem, response, status, headers);
 		};
-		uploader.onCompleteItem = function(fileItem, response, status, headers) {
+		uploader.onCompleteItem = function (fileItem, response, status, headers) {
 			fileItem.response = response[0];
 			// console.info('onCompleteItem', fileItem, response, status, headers);
 		};
-		uploader.onCompleteAll = function() {
+		uploader.onCompleteAll = function () {
 			// console.info('onCompleteAll');
 		};
 

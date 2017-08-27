@@ -21,10 +21,14 @@ class EntryListComponentController implements ng.IController {
 	list: Array<IEntry> = [];
 	entries: Array<IEntry>;
 
-	static $inject = ['$scope'];
+	static $inject = ['$scope', '$log'];
 
-	constructor(private $scope: angular.IScope) {
+	constructor(private $scope: angular.IScope, private $log: angular.ILogService) {
 		this.ngInit();
+	}
+
+	$onInit(): void {
+		this.$log.warn('init');
 	}
 
 	ngInit() {

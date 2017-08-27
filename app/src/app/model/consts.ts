@@ -15,6 +15,7 @@ class AngularServices {
 	static get Scope() { return '$scope'; }
 	static get RootScope() { return '$rootScope'; }
 	static get Location() { return '$location'; }
+	static get Log() { return '$log'; }
 	static get HotKeys() { return 'hotkeys'; }
 }
 
